@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /test-
+Disallow: /_test-
+# Interní stránky se v produkci nestaví; blokace platí i pro GOLD_INTERNI=1.
+Disallow: /styleguide
+Disallow: /znacka
+Sitemap: https://www.hotelchotoviny.cz/sitemap-index.xml

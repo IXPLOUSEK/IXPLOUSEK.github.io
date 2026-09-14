@@ -1,0 +1,4 @@
+<!-- Dlaždice cihlové vazby — viz motivy.css .cihly (jen sklepní scéna, nejvýš jednou na stránku). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 24" fill="none" stroke="#fff" stroke-width="1">
+  <path d="M0 11.5H54M0 23.5H54M.5 0V12M27.5 12V24"/>
+</svg>

@@ -1,0 +1,347 @@
+Tento soubor vytváří scripts/licence.mjs ze souboru THIRD-PARTY-NOTICES.md v kořeni
+repozitáře. Needitujte ho ručně — při dalším sestavení se přepíše.
+
+========================================================================
+
+Oznámení o komponentách třetích stran
+=====================================
+
+Licenční texty a registr práv ověřeny 14. 9. 2026; níže označený inventář chunků zachycuje sestavení z 13. 9. 2026. Tento soupis
+rozlišuje kód a písma dodávaná s webem, nástroje použité jen při sestavení a
+externí služby. Není licencí k hotelovým fotografiím ani k ochranné známce;
+jejich původ a nutná oprávnění evidují zdroje/manifest.json,
+zdroje/MANIFEST.md, zdroje/FOTKY-VYBER.md a
+docs/pamet/VYSLEDKY-AGENTU/iterace-2/audit-opravneni-a-licenci.md.
+
+Co se skutečně posílá prohlížeči
+--------------------------------
+
+Kontrola dist/ po sestavení 13. 9. 2026 ukázala šest souborů JavaScriptu.
+Prostřední část názvu (gsap.<otisk>.js) je obsahový otisk a mění se při každém
+sestavení, proto se tu chunky uvádějí stabilním základem jména; velikosti jsou
+nekomprimované z téhož sestavení.
+
+Zaklad.astro_…js
+  Velikost: 30 295 B
+  Co obsahuje: vlastní skripty webu; knihovna Lenis je vestavěná přímo v něm, ne v samostatném souboru
+  Kdy se stahuje: na každé stránce
+
+gsap.*.js
+  Velikost: 69 964 B
+  Co obsahuje: GSAP
+  Kdy se stahuje: jen společně se sestup.*.js
+
+ScrollTrigger.*.js
+  Velikost: 42 750 B
+  Co obsahuje: plugin ScrollTrigger
+  Kdy se stahuje: jen společně se sestup.*.js
+
+Poptavka.astro_…js
+  Velikost: 6 541 B
+  Co obsahuje: vlastní skript formuláře poptávky
+  Kdy se stahuje: na stránkách s formulářem
+
+page.*.js
+  Velikost: 2 487 B
+  Co obsahuje: klientský běhový kód Astro (navigace, prefetch)
+  Kdy se stahuje: na každé stránce
+
+sestup.*.js
+  Velikost: 1 605 B
+  Co obsahuje: vlastní scéna sestupu; staticky importuje gsap.*.js a ScrollTrigger.*.js
+  Kdy se stahuje: dynamicky z Zaklad.astro_…js, jen na stránce s [data-sestup]
+
+GSAP a ScrollTrigger jsou tedy dva samostatné chunky, ne obsah sestup.*.js.
+Ani jeden není v HTML jako počáteční skript a na stránce bez té scény se
+nestahuje. Dřívější znění tohohle soupisu mluvilo o pěti souborech a o jediném
+chunku sestup.Bt6NrHeH.js o 114 344 B s GSAP i ScrollTriggerem — soubor toho
+jména v dist/ nikdy nebyl a tvrzení bylo nepravdivé.
+
+dist/ neobsahuje JavaScript ze sharp, yaml, subset-font, TypeScript,
+@astrojs/sitemap ani @astrojs/check. Písma se dodávají jako čtyři soubory
+woff2 v dist/pisma/ — obě rodiny zvlášť pro latinku a pro cyrilici; cyrilici
+si přes unicode-range vyžádá jen ukrajinská verze. Jejich texty OFL leží vedle
+nich. Konkrétní jména souborů písem tu nejsou, protože je určuje
+scripts/pisma.mjs a měnila by je každá úprava rodin. V aktuálním HTML nejsou
+vloženy mapové dlaždice, Nominatim, Turnstile ani Resend. Previo je odkaz
+a formulář GET na booking.previo.app, takže se jeho vlastní kód z tohoto webu
+nenačítá.
+
+Licenční texty ve výstupu
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MIT u Lenisu a ISC u ikon podmiňují šíření tím, že se s kopií rozšíří i jejich
+copyrightní a licenční oznámení. Do 13. 9. 2026 ležela jen v node_modules/
+a v src/, takže se s vydaným webem nešířila vůbec; odkaz do node_modules
+není součástí statického výstupu. scripts/licence.mjs je proto před
+astro build zapíše do public/licence/ a Astro je přenese do dist/.
+
+dist/licence/THIRD-PARTY-NOTICES.txt
+  Zdroj: tenhle soubor převedený do prostého textu
+
+dist/licence/astro-MIT.txt
+  Zdroj: node_modules/astro/LICENSE, úplná kopie
+
+dist/licence/gsap-standard-license.txt
+  Zdroj: zdroje/licence/GSAP-3.15.0.txt, úplné oficiální znění; původ v zdroje/licence/PUVOD.md
+
+dist/licence/TenorSans-OFL.txt a dist/licence/Commissioner-OFL.txt
+  Zdroj: kopie OFL z public/pisma/, licence zůstávají i vedle písem
+
+dist/licence/lenis-MIT.txt
+  Zdroj: node_modules/lenis/LICENSE, doslovná kopie
+
+dist/licence/ikony.txt
+  Zdroj: src/komponenty/zaklad/IKONY-LICENCE.txt
+
+dist/pisma/TenorSans-OFL.txt a dist/pisma/Commissioner-OFL.txt
+  Zdroj: public/pisma/, píše je scripts/pisma.mjs
+
+public/licence/ se necommituje (je v .gitignore): je celý odvozený a
+commitnutá kopie by se po změně zdroje — jiné verzi Lenisu, opravě tohohle
+soupisu — tiše rozešla s pravdou a tvrdila by o licenci něco nepravdivého.
+Generuje se při každém sestavení znovu. Na tyto soubory odkazuje stránka
+/autori-a-licence.
+
+Závislosti npm
+--------------
+
+Verze níže jsou uzamčené v package-lock.json a ověřené proti odpovídajícímu
+node_modules/<balíček>/package.json. U balíčků použitých jen při buildu není
+jejich kód součástí prohlížečového výstupu.
+
+Astro
+  Verze: 7.3.2
+  Licence a držitel práv: MIT; Copyright (c) 2021 Fred K. Schott, licence obsahuje i oznámení dalších autorů
+  Použití: statický generátor; jeho malý klientský runtime je v dist/_obr/page.*.js
+  Kde je úplný text licence: node_modules/astro/LICENSE; ve výstupu dist/licence/astro-MIT.txt
+
+@astrojs/sitemap
+  Verze: 3.7.4
+  Licence a držitel práv: MIT; Copyright (c) 2021 Fred K. Schott, licence obsahuje i oznámení dalších autorů
+  Použití: pouze build, vytvoření sitemapy
+  Kde je úplný text licence: node_modules/@astrojs/sitemap/LICENSE
+
+GSAP včetně ScrollTrigger
+  Verze: 3.15.0
+  Licence a držitel práv: Standard "No Charge" GSAP License; Copyright (c) 2008-2026, GreenSock. All rights reserved. (doslovně podle node_modules/gsap/README.md)
+  Použití: browser: dva samostatné chunky dist/_obr/gsap.*.js a dist/_obr/ScrollTrigger.*.js, stahují se jen se scénou sestupu
+  Kde je úplný text licence: zdroje/licence/GSAP-3.15.0.txt; ve výstupu dist/licence/gsap-standard-license.txt; oficiální zdroj: https://gsap.com/standard-license
+
+Lenis
+  Verze: 1.3.26
+  Licence a držitel práv: MIT; Copyright (c) 2024 darkroom.engineering (doslovně podle node_modules/lenis/LICENSE)
+  Použití: browser: pohybový motor (src/skripty/pohyb/lenis.ts, viz src/sablony/Zaklad.astro); vestavěný přímo do chunku dist/obr/Zaklad.astro…js, samostatný soubor to není
+  Kde je úplný text licence: node_modules/lenis/LICENSE; ve výstupu dist/licence/lenis-MIT.txt
+
+sharp
+  Verze: 0.34.5
+  Licence a držitel práv: Apache License 2.0; copyrightní oznámení jsou v distribuované licenci
+  Použití: pouze build, zpracování obrázků
+  Kde je úplný text licence: node_modules/sharp/LICENSE
+
+yaml
+  Verze: 2.9.1
+  Licence a držitel práv: ISC; Copyright Eemeli Aro
+  Použití: pouze build/skripty
+  Kde je úplný text licence: node_modules/yaml/LICENSE
+
+subset-font
+  Verze: 2.7.0
+  Licence a držitel práv: BSD-3-Clause; Copyright (c) 2012 Andreas Lind Petersen
+  Použití: pouze build, subsetování písem
+  Kde je úplný text licence: node_modules/subset-font/LICENSE
+
+TypeScript
+  Verze: 5.9.3
+  Licence a držitel práv: Apache License 2.0; copyrightní oznámení jsou v distribuované licenci
+  Použití: vývoj a kontrola typů, ne browserový kód
+  Kde je úplný text licence: node_modules/typescript/LICENSE.txt
+
+@astrojs/check
+  Verze: 0.9.10
+  Licence a držitel práv: MIT; Copyright (c) 2021 Fred K. Schott, licence obsahuje i oznámení dalších autorů
+  Použití: vývojová kontrola, ne browserový kód
+  Kde je úplný text licence: node_modules/@astrojs/check/LICENSE
+
+GSAP: oprávnění a oznámení
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GSAP 3.13+ je distribuován pod standardní licencí. Nainstalovaný balíček
+3.15.0 má v package.json přesný údaj Standard 'no charge' license: https://gsap.com/standard-license.
+Jeho README.md odkazuje na stejný text; soubor LICENSE v tomto balíčku chybí.
+Úplné znění s titulem Standard "No Charge" GSAP License jsme proto dne
+14. 9. 2026 převzali z oficiální stránky (https://gsap.com/community/standard-license/)
+do zdroje/licence/GSAP-3.15.0.txt. Původ, datum, úpravu formátu a SHA-256
+zaznamenává zdroje/licence/PUVOD.md. Podmínky se zde nepřepisují vlastními slovy.
+
+Projekt používá GSAP a ScrollTrigger pro animaci hotelového webu a nenabízí
+editor animací. Úplný licenční text se nově dodává v
+dist/licence/gsap-standard-license.txt; copyrightní oznámení GreenSock z balíčku
+zůstává v tomto soupisu a jeho distribuované kopii. Dřívější záznam zde ponechával
+otevřenou otázku, zda samotný soupis bez úplného textu stačí. Tato distribuční
+mezera je uzavřena. Kontrola zdrojových oznámení a plného znění byla dokončena
+14. 9. 2026; GSAP nepředstavuje otevřenou bránu pro tento způsob použití.
+Při změně verze nebo způsobu použití je nutné kontrolu zopakovat; skript odmítne
+použít archiv pro jinou verzi bez vlastního licenčního souboru.
+
+Písma a ikony
+-------------
+
+Cedule — subset písma Tenor Sans, přejmenovaný
+  Stav: aktuálně dodáváno, latinka a cyrilice zvlášť (nadpisy)
+  Licence a copyright: SIL Open Font License 1.1; Copyright (c) 2011, Denis Masharov, with Reserved Font Name „Tenor“, „Tenor Sans“
+  Kde je text licence: public/pisma/TenorSans-OFL.txt, po buildu dist/pisma/TenorSans-OFL.txt
+
+Commissioner — subset beze změny jména
+  Stav: aktuálně dodáváno, latinka a cyrilice zvlášť (text, variabilní)
+  Licence a copyright: SIL Open Font License 1.1; Copyright 2019 The Commissioner Project Authors, autor Kostas Bartsokas; vyhrazené jméno nedeklaruje
+  Kde je text licence: public/pisma/Commissioner-OFL.txt, po buildu dist/pisma/Commissioner-OFL.txt
+
+Bellefair
+  Stav: vyřazeno 13. 9. 2026, v repozitáři ani dist/ už není
+  Licence a copyright: SIL Open Font License 1.1; Copyright 2015 The Bellefair Project Authors
+  Kde je text licence: licenční text smazán spolu s písmem; zdroj: https://github.com/google/fonts/tree/main/ofl/bellefair
+
+Kumbh Sans
+  Stav: vyřazeno 13. 9. 2026, v repozitáři ani dist/ už není
+  Licence a copyright: SIL Open Font License 1.1; Copyright 2020 The KumbhSans Project Authors
+  Kde je text licence: licenční text smazán spolu s písmem; zdroj: https://github.com/google/fonts/tree/main/ofl/kumbhsans
+
+Lucide static
+  Stav: aktuálně použité SVG, 1.45.0
+  Licence a copyright: ISC; Copyright (c) 2026 Lucide Icons and Contributors
+  Kde je text licence: src/komponenty/zaklad/IKONY-LICENCE.txt, po buildu dist/licence/ikony.txt
+
+Feather (odvozené ikony Lucide)
+  Stav: jen u ikon vyjmenovaných v licenčním souboru
+  Licence a copyright: MIT; Copyright (c) 2013-present Cole Bemis
+  Kde je text licence: src/komponenty/zaklad/IKONY-LICENCE.txt, po buildu dist/licence/ikony.txt
+
+Obě dodávaná písma stahuje z repozitáře Google Fonts a subsetuje
+scripts/pisma.mjs; adresy, datum stažení, velikosti, sha256 a autorství zdrojů
+eviduje zdroje/pisma/PUVOD.md. Bellefair a Kumbh Sans byly převzaté
+z agenturního návrhu a 13. 9. 2026 je nahradila vlastní dvojice Tenor Sans a
+Commissioner; jejich woff2 i licenční texty byly z public/pisma/ smazány
+a odkazuje na ně už jen tenhle řádek.
+
+OFL 1.1 dovoluje subsetování i další šíření. Subset je ale podle licence
+„Modified Version“ a bod 3 zakazuje šířit ji pod vyhrazeným jménem písma.
+Tenor Sans vyhrazené jméno deklaruje (with Reserved Font Name "Tenor",
+"Tenor Sans" přímo v hlavičce TenorSans-OFL.txt), proto se jeho subset
+jmenuje Cedule — v name tabulce písma i v @font-face a v tokenech.
+Commissioner vyhrazené jméno nedeklaruje, takže si jeho subset jméno
+Commissioner ponechává. Obě písma zůstávají pod SIL Open Font License 1.1,
+oba texty OFL se dál dodávají v public/pisma/ a po sestavení v dist/pisma/,
+a původní rodiny i jejich autoři jsou uvedeni tady a v zdroje/pisma/PUVOD.md.
+Dřívější znění tohohle soupisu tvrdilo, že „jméno rodiny náš subset nemění“ —
+u Tenor Sans to od přejmenování neplatí.
+
+ISC a MIT u ikon vyžadují zachovat copyrightní a licenční oznámení v kopiích
+softwaru; jsou uložena přímo u zdrojových SVG a od 13. 9. 2026 se sestavením
+dostávají i do výstupu jako dist/licence/ikony.txt. Převod do interního
+ikony.ts nemění licenci ani autorství původních cest.
+
+Data, obsah a služby třetích stran
+----------------------------------
+
+OpenStreetMap
+  Jak je použita: Souřadnice hotelu byly získány z Nominatim; mapa zatím není v dist/ vložena
+  Povinnost / omezení: Při zobrazení mapy musí být bezprostředně u ní uvedeno © přispěvatelé OpenStreetMap; mapová data jsou pod ODbL
+  Evidence či místo kontroly: docs/STAV.md; licence: https://www.openstreetmap.org/copyright
+
+Nominatim
+  Jak je použita: geokódování adresy, nikoli prohlížečový runtime
+  Povinnost / omezení: Řídit se podmínkami veřejné služby Nominatim a neprezentovat její výsledek jako vlastní měření
+  Evidence či místo kontroly: docs/STAV.md (49.4739505, 14.6748420)
+
+Previo
+  Jak je použita: externí rezervační služba na booking.previo.app; formulář předá parametry GET a odkaz otevírá službu ve vlastním okně
+  Povinnost / omezení: Podmínky, cookies, přístupnost a zpracování v rezervačním systému jsou odpovědností Previa; do webu se nevkládá iframe ani jeho kód
+  Evidence či místo kontroly: src/data/hotel.ts, src/pages/rezervace.astro, src/komponenty/bloky/RezervacniLista.astro
+
+Cloudflare Pages a Pages Functions
+  Jak je použita: zamýšlený hosting; endpoint functions/api/poptavka.ts je určen pro Pages Function
+  Povinnost / omezení: smluvní služba, ne npm knihovna; před nasazením ověřit účet, DPA, konfiguraci secretů a zásady ochrany údajů
+  Evidence či místo kontroly: functions/README.md
+
+Cloudflare Turnstile
+  Jak je použita: jen volitelná kontrola formuláře, pokud je nastaven TURNSTILE_SECRET; v aktuálním dist/ se nenačítá
+  Povinnost / omezení: před aktivací doplnit informace o zpracování, právní titul a skutečné klientské načtení; ověřovací token se předává Cloudflare
+  Evidence či místo kontroly: functions/README.md, src/obsah/stranky/cookies.md
+
+Resend
+  Jak je použita: Pages Function volá API https://api.resend.com/emails jen při odeslání poptávky
+  Povinnost / omezení: smluvní služba, ne npm knihovna; klíč zůstává jen v RESEND_API_KEY, před nasazením ověřit DPA a příjemce
+  Evidence či místo kontroly: functions/api/poptavka.ts, functions/README.md
+
+Fotografie a jiné hotelové podklady
+-----------------------------------
+
+Fotografie nejsou automaticky „součástí hotelu“ jen proto, že byly staženy z
+hotelchotoviny.cz. Strojovou evidenci vede zdroje/registr-prav.json; čísla
+níže byly programově spočteny 14. 9. 2026 a stránka /autori-a-licence je počítá
+z téhož souboru. Jde o datovaný snímek evidence; po změně registru je nutné
+počty znovu spočítat. Počítají se délky polí mastery a zdroje, blokace
+filtrem stav === "blokuje", skupiny masterů podle drzitel.
+
+mastery v src/obrazky/** celkem
+  Počet: 35
+  Stav: —
+
+zástupné obrázky vytvořené v tomto projektu
+  Počet: 3
+  Stav: ok, držitel projekt
+
+snímky s copyrightem Hotel GOLD Chotoviny v EXIF
+  Počet: 29
+  Stav: upozorneni, držitel hotel — chybí písemné potvrzení
+
+snímky s nedoloženým držitelem (koláže z Canvy, motiv mimo areál)
+  Počet: 3
+  Stav: upozorneni, držitel neznámý — vyžádány originály
+
+mastery ve stavu blokuje
+  Počet: 0
+  Stav: —
+
+Mimo mastery registr eviduje 118 stažených originálů, z toho 28 ve stavu
+blokuje: 23 snímků s jmenovaným fotografem v EXIF, čtyři studiové snímky
+s nedoloženým původem a jeden snímek cizí provozovny. Žádný z nich není
+zdrojem některého ze současných masterů (ověřeno proti poli zdroj v registru).
+
+Dřívější znění tohohle soupisu uvádělo jako blokující snímek Davida Peltana
+(src/obrazky/s/s-sal.jpg) a snímek Zdeňka Prchlíka
+(src/obrazky/k/k-b-tranzitni.jpg). Oba mastery byly ve vlně A vyměněny
+a dnešní soubory na těchto cestách nesou v EXIF Copyright: Hotel GOLD
+Chotoviny. Ani jeden z obou fotografů tedy není autorem současného masteru
+a nesmí se tak uvádět. Záznam o dřívějším stavu zůstává tady a v
+docs/pamet/VYSLEDKY-AGENTU/iterace-2/vlna-a/a1-prava-k-fotkam.md, protože se
+původ nezakrývá mazáním.
+
+Nevyřešené zůstává, že hotel dosud písemně nepotvrdil práva ani k jednomu
+snímku. Tento soubor proto neuděluje licenci k žádné fotografii. Před
+zveřejněním musí hotel práva ke každému použitému snímku písemně potvrdit, nebo
+musí být snímek nahrazen jiným s doloženou licencí.
+
+Hotelové logo, název a fakta nejsou licencovanými softwarovými komponentami.
+Použití loga a značky vyžaduje potvrzení hotelu/FITT cz s.r.o.; aktuální audit
+uvádí, že autorizovaný zdrojový soubor loga v repozitáři není.
+
+Údržba
+------
+
+Při každé změně package-lock.json, písem, ikon, mapové implementace nebo
+externí služby je nutné aktualizovat tento soupis, zkontrolovat jejich licence a
+znovu ověřit dist/. Neuvádět nástroj jako browserový runtime jen proto, že je
+v node_modules; rozhoduje skutečný výstup sestavení.
+
+Jména chunků v dist/_obr/ nesou obsahový otisk, který se mění při každém
+sestavení. Do soupisu se proto píše jen stabilní základ jména (gsap,
+ScrollTrigger, sestup, page, Zaklad.astro_…, Poptavka.astro_…);
+zapsaný otisk by zastaral hned dalším buildem — přesně to se stalo u dřívějšího
+řádku o sestup.Bt6NrHeH.js.
+
+Kopie licenčních textů ve výstupu se needitují ručně. Zapisuje je
+scripts/licence.mjs ze zdrojů v repozitáři a v node_modules při každém
+sestavení; oprava patří do zdroje, ne do kopie.

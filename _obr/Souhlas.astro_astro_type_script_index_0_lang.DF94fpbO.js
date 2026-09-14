@@ -1,0 +1,1 @@
+import{n as e}from"./souhlas.D6AIUtDo.js";e();

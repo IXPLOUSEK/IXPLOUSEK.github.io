@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .pozadi{fill:#e9ecdf}
+    .hvezda{fill:#1c2320}
+    @media (prefers-color-scheme: dark){
+      .pozadi{fill:#1c2320}
+      .hvezda{fill:#d8bd5a}
+    }
+  </style>
+  <rect class="pozadi" width="32" height="32"/>
+  <g transform="translate(3.2 3.2) scale(0.8)"><path class="hvezda" d="M16 0 19.45 10.02 29.86 8 22.9 16 29.86 24 19.45 21.98 16 32 12.55 21.98 2.14 24 9.1 16 2.14 8 12.55 10.02Z"/></g>
+</svg>
