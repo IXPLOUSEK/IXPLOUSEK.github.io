@@ -1,0 +1,258 @@
+# GENEROVÁNO scripts/server/hlavicky.mjs. Apache 2.4.57+; nahradit původní WP .htaccess.
+# Nutné AllowOverride FileInfo Options AuthConfig a mod_rewrite/mod_headers/mod_authz_core.
+Options -Indexes -MultiViews
+AddDefaultCharset utf-8
+ErrorDocument 404 /404.html
+<IfModule mod_dir.c>
+  DirectoryIndex index.html
+</IfModule>
+<IfModule mod_authz_core.c>
+  <FilesMatch "(?i)(^\\.|\\.(?:example|json)$|^_(?:headers|redirects)$)">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Dotfiles všude; jen kořenová .well-known je výjimka, ne její skryté potomky.
+  RewriteRule "(^|/)\.(?!well-known(?:/|$))" - [F,END,NC]
+  RewriteRule "^(?!\.well-known(?:/|$)).*/\.well-known(?:/|$)" - [F,END,NC]
+  # Soukromé knihovny ani serverová konfigurace nejsou veřejná API.
+  RewriteRule "^(?:api/_lib|server|mimo-www)(?:/|$)" - [F,END,NC]
+  RewriteRule "(?:^|/)[^/]*\.(?:example|json)(?:/|$)" - [F,END,NC]
+  # Nespoléhat na klientem podvržitelný X-Forwarded-Proto. WEDOS terminaci TLS ověřit.
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^www\.hotelchotoviny\.cz$ [NC]
+  RewriteRule ^ https://www.hotelchotoviny.cz%{REQUEST_URI} [R=301,L]
+
+# ZACATEK SPOLECNYCH REDIRECTU
+RewriteRule ^cs$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^cs/$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^en/$ https://www.hotelchotoviny.cz/en [R=301,L,NE]
+RewriteRule ^en/pokoje$ https://www.hotelchotoviny.cz/en/rooms [R=301,L,NE]
+RewriteRule ^en/pokoje/$ https://www.hotelchotoviny.cz/en/rooms [R=301,L,NE]
+RewriteRule ^en/balicky$ https://www.hotelchotoviny.cz/en/packages [R=301,L,NE]
+RewriteRule ^en/balicky/$ https://www.hotelchotoviny.cz/en/packages [R=301,L,NE]
+RewriteRule ^en/restaurace$ https://www.hotelchotoviny.cz/en/restaurant [R=301,L,NE]
+RewriteRule ^en/restaurace/$ https://www.hotelchotoviny.cz/en/restaurant [R=301,L,NE]
+RewriteRule ^en/akce$ https://www.hotelchotoviny.cz/en/events [R=301,L,NE]
+RewriteRule ^en/akce/$ https://www.hotelchotoviny.cz/en/events [R=301,L,NE]
+RewriteRule ^en/kontakt$ https://www.hotelchotoviny.cz/en/contact [R=301,L,NE]
+RewriteRule ^en/kontakt/$ https://www.hotelchotoviny.cz/en/contact [R=301,L,NE]
+RewriteRule ^en/rezervace$ https://www.hotelchotoviny.cz/en/booking [R=301,L,NE]
+RewriteRule ^en/rezervace/$ https://www.hotelchotoviny.cz/en/booking [R=301,L,NE]
+RewriteRule ^en/autori-a-licence$ https://www.hotelchotoviny.cz/en/credits [R=301,L,NE]
+RewriteRule ^en/autori-a-licence/$ https://www.hotelchotoviny.cz/en/credits [R=301,L,NE]
+RewriteRule ^en/obchodni-podminky$ https://www.hotelchotoviny.cz/en/terms [R=301,L,NE]
+RewriteRule ^en/obchodni-podminky/$ https://www.hotelchotoviny.cz/en/terms [R=301,L,NE]
+RewriteRule ^en/ochrana-osobnich-udaju$ https://www.hotelchotoviny.cz/en/privacy [R=301,L,NE]
+RewriteRule ^en/ochrana-osobnich-udaju/$ https://www.hotelchotoviny.cz/en/privacy [R=301,L,NE]
+RewriteRule ^en/prohlaseni-o-pristupnosti$ https://www.hotelchotoviny.cz/en/accessibility [R=301,L,NE]
+RewriteRule ^en/prohlaseni-o-pristupnosti/$ https://www.hotelchotoviny.cz/en/accessibility [R=301,L,NE]
+RewriteRule ^en/okoli$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^en/okoli/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^en/surroundings$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^en/surroundings/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^de/$ https://www.hotelchotoviny.cz/de [R=301,L,NE]
+RewriteRule ^de/pokoje$ https://www.hotelchotoviny.cz/de/zimmer [R=301,L,NE]
+RewriteRule ^de/pokoje/$ https://www.hotelchotoviny.cz/de/zimmer [R=301,L,NE]
+RewriteRule ^de/balicky$ https://www.hotelchotoviny.cz/de/pakete [R=301,L,NE]
+RewriteRule ^de/balicky/$ https://www.hotelchotoviny.cz/de/pakete [R=301,L,NE]
+RewriteRule ^de/restaurace$ https://www.hotelchotoviny.cz/de/restaurant [R=301,L,NE]
+RewriteRule ^de/restaurace/$ https://www.hotelchotoviny.cz/de/restaurant [R=301,L,NE]
+RewriteRule ^de/akce$ https://www.hotelchotoviny.cz/de/veranstaltungen [R=301,L,NE]
+RewriteRule ^de/akce/$ https://www.hotelchotoviny.cz/de/veranstaltungen [R=301,L,NE]
+RewriteRule ^de/rezervace$ https://www.hotelchotoviny.cz/de/buchen [R=301,L,NE]
+RewriteRule ^de/rezervace/$ https://www.hotelchotoviny.cz/de/buchen [R=301,L,NE]
+RewriteRule ^de/autori-a-licence$ https://www.hotelchotoviny.cz/de/urheber-und-lizenzen [R=301,L,NE]
+RewriteRule ^de/autori-a-licence/$ https://www.hotelchotoviny.cz/de/urheber-und-lizenzen [R=301,L,NE]
+RewriteRule ^de/obchodni-podminky$ https://www.hotelchotoviny.cz/de/agb [R=301,L,NE]
+RewriteRule ^de/obchodni-podminky/$ https://www.hotelchotoviny.cz/de/agb [R=301,L,NE]
+RewriteRule ^de/ochrana-osobnich-udaju$ https://www.hotelchotoviny.cz/de/datenschutz [R=301,L,NE]
+RewriteRule ^de/ochrana-osobnich-udaju/$ https://www.hotelchotoviny.cz/de/datenschutz [R=301,L,NE]
+RewriteRule ^de/prohlaseni-o-pristupnosti$ https://www.hotelchotoviny.cz/de/barrierefreiheit [R=301,L,NE]
+RewriteRule ^de/prohlaseni-o-pristupnosti/$ https://www.hotelchotoviny.cz/de/barrierefreiheit [R=301,L,NE]
+RewriteRule ^de/okoli$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^de/okoli/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^de/umgebung$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^de/umgebung/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^pl/$ https://www.hotelchotoviny.cz/pl [R=301,L,NE]
+RewriteRule ^pl/balicky$ https://www.hotelchotoviny.cz/pl/pakiety [R=301,L,NE]
+RewriteRule ^pl/balicky/$ https://www.hotelchotoviny.cz/pl/pakiety [R=301,L,NE]
+RewriteRule ^pl/restaurace$ https://www.hotelchotoviny.cz/pl/restauracja [R=301,L,NE]
+RewriteRule ^pl/restaurace/$ https://www.hotelchotoviny.cz/pl/restauracja [R=301,L,NE]
+RewriteRule ^pl/akce$ https://www.hotelchotoviny.cz/pl/wydarzenia [R=301,L,NE]
+RewriteRule ^pl/akce/$ https://www.hotelchotoviny.cz/pl/wydarzenia [R=301,L,NE]
+RewriteRule ^pl/rezervace$ https://www.hotelchotoviny.cz/pl/rezerwacja [R=301,L,NE]
+RewriteRule ^pl/rezervace/$ https://www.hotelchotoviny.cz/pl/rezerwacja [R=301,L,NE]
+RewriteRule ^pl/autori-a-licence$ https://www.hotelchotoviny.cz/pl/autorzy-licencje [R=301,L,NE]
+RewriteRule ^pl/autori-a-licence/$ https://www.hotelchotoviny.cz/pl/autorzy-licencje [R=301,L,NE]
+RewriteRule ^pl/obchodni-podminky$ https://www.hotelchotoviny.cz/pl/regulamin [R=301,L,NE]
+RewriteRule ^pl/obchodni-podminky/$ https://www.hotelchotoviny.cz/pl/regulamin [R=301,L,NE]
+RewriteRule ^pl/ochrana-osobnich-udaju$ https://www.hotelchotoviny.cz/pl/prywatnosc [R=301,L,NE]
+RewriteRule ^pl/ochrana-osobnich-udaju/$ https://www.hotelchotoviny.cz/pl/prywatnosc [R=301,L,NE]
+RewriteRule ^pl/prohlaseni-o-pristupnosti$ https://www.hotelchotoviny.cz/pl/dostepnosc [R=301,L,NE]
+RewriteRule ^pl/prohlaseni-o-pristupnosti/$ https://www.hotelchotoviny.cz/pl/dostepnosc [R=301,L,NE]
+RewriteRule ^pl/okoli$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^pl/okoli/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^pl/okolice$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^pl/okolice/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^uk/$ https://www.hotelchotoviny.cz/uk [R=301,L,NE]
+RewriteRule ^uk/pokoje$ https://www.hotelchotoviny.cz/uk/nomery [R=301,L,NE]
+RewriteRule ^uk/pokoje/$ https://www.hotelchotoviny.cz/uk/nomery [R=301,L,NE]
+RewriteRule ^uk/balicky$ https://www.hotelchotoviny.cz/uk/pakety [R=301,L,NE]
+RewriteRule ^uk/balicky/$ https://www.hotelchotoviny.cz/uk/pakety [R=301,L,NE]
+RewriteRule ^uk/restaurace$ https://www.hotelchotoviny.cz/uk/restoran [R=301,L,NE]
+RewriteRule ^uk/restaurace/$ https://www.hotelchotoviny.cz/uk/restoran [R=301,L,NE]
+RewriteRule ^uk/akce$ https://www.hotelchotoviny.cz/uk/zakhody [R=301,L,NE]
+RewriteRule ^uk/akce/$ https://www.hotelchotoviny.cz/uk/zakhody [R=301,L,NE]
+RewriteRule ^uk/kontakt$ https://www.hotelchotoviny.cz/uk/kontakty [R=301,L,NE]
+RewriteRule ^uk/kontakt/$ https://www.hotelchotoviny.cz/uk/kontakty [R=301,L,NE]
+RewriteRule ^uk/rezervace$ https://www.hotelchotoviny.cz/uk/broniuvannia [R=301,L,NE]
+RewriteRule ^uk/rezervace/$ https://www.hotelchotoviny.cz/uk/broniuvannia [R=301,L,NE]
+RewriteRule ^uk/autori-a-licence$ https://www.hotelchotoviny.cz/uk/avtory-litsenzii [R=301,L,NE]
+RewriteRule ^uk/autori-a-licence/$ https://www.hotelchotoviny.cz/uk/avtory-litsenzii [R=301,L,NE]
+RewriteRule ^uk/obchodni-podminky$ https://www.hotelchotoviny.cz/uk/umovy [R=301,L,NE]
+RewriteRule ^uk/obchodni-podminky/$ https://www.hotelchotoviny.cz/uk/umovy [R=301,L,NE]
+RewriteRule ^uk/ochrana-osobnich-udaju$ https://www.hotelchotoviny.cz/uk/konfidentsiinist [R=301,L,NE]
+RewriteRule ^uk/ochrana-osobnich-udaju/$ https://www.hotelchotoviny.cz/uk/konfidentsiinist [R=301,L,NE]
+RewriteRule ^uk/prohlaseni-o-pristupnosti$ https://www.hotelchotoviny.cz/uk/dostupnist [R=301,L,NE]
+RewriteRule ^uk/prohlaseni-o-pristupnosti/$ https://www.hotelchotoviny.cz/uk/dostupnist [R=301,L,NE]
+RewriteRule ^uk/okoli$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^uk/okoli/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^uk/okolytsi$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^uk/okolytsi/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^ua$ https://www.hotelchotoviny.cz/uk [R=301,L,NE]
+RewriteRule ^ua/$ https://www.hotelchotoviny.cz/uk [R=301,L,NE]
+RewriteRule ^ua/pokoje$ https://www.hotelchotoviny.cz/uk/nomery [R=301,L,NE]
+RewriteRule ^ua/pokoje/$ https://www.hotelchotoviny.cz/uk/nomery [R=301,L,NE]
+RewriteRule ^ua/balicky$ https://www.hotelchotoviny.cz/uk/pakety [R=301,L,NE]
+RewriteRule ^ua/balicky/$ https://www.hotelchotoviny.cz/uk/pakety [R=301,L,NE]
+RewriteRule ^ua/restaurace$ https://www.hotelchotoviny.cz/uk/restoran [R=301,L,NE]
+RewriteRule ^ua/restaurace/$ https://www.hotelchotoviny.cz/uk/restoran [R=301,L,NE]
+RewriteRule ^ua/akce$ https://www.hotelchotoviny.cz/uk/zakhody [R=301,L,NE]
+RewriteRule ^ua/akce/$ https://www.hotelchotoviny.cz/uk/zakhody [R=301,L,NE]
+RewriteRule ^ua/kontakt$ https://www.hotelchotoviny.cz/uk/kontakty [R=301,L,NE]
+RewriteRule ^ua/kontakt/$ https://www.hotelchotoviny.cz/uk/kontakty [R=301,L,NE]
+RewriteRule ^ua/rezervace$ https://www.hotelchotoviny.cz/uk/broniuvannia [R=301,L,NE]
+RewriteRule ^ua/rezervace/$ https://www.hotelchotoviny.cz/uk/broniuvannia [R=301,L,NE]
+RewriteRule ^ua/autori-a-licence$ https://www.hotelchotoviny.cz/uk/avtory-litsenzii [R=301,L,NE]
+RewriteRule ^ua/autori-a-licence/$ https://www.hotelchotoviny.cz/uk/avtory-litsenzii [R=301,L,NE]
+RewriteRule ^ua/obchodni-podminky$ https://www.hotelchotoviny.cz/uk/umovy [R=301,L,NE]
+RewriteRule ^ua/obchodni-podminky/$ https://www.hotelchotoviny.cz/uk/umovy [R=301,L,NE]
+RewriteRule ^ua/ochrana-osobnich-udaju$ https://www.hotelchotoviny.cz/uk/konfidentsiinist [R=301,L,NE]
+RewriteRule ^ua/ochrana-osobnich-udaju/$ https://www.hotelchotoviny.cz/uk/konfidentsiinist [R=301,L,NE]
+RewriteRule ^ua/prohlaseni-o-pristupnosti$ https://www.hotelchotoviny.cz/uk/dostupnist [R=301,L,NE]
+RewriteRule ^ua/prohlaseni-o-pristupnosti/$ https://www.hotelchotoviny.cz/uk/dostupnist [R=301,L,NE]
+RewriteRule ^ua/okoli$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^ua/okoli/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^ua/okolytsi$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^ua/okolytsi/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^pokoje/$ https://www.hotelchotoviny.cz/pokoje [R=301,L,NE]
+RewriteRule ^balicky/$ https://www.hotelchotoviny.cz/balicky [R=301,L,NE]
+RewriteRule ^wellness/$ https://www.hotelchotoviny.cz/wellness [R=301,L,NE]
+RewriteRule ^masaze/$ https://www.hotelchotoviny.cz/wellness [R=301,L,NE]
+RewriteRule ^masaze$ https://www.hotelchotoviny.cz/wellness [R=301,L,NE]
+RewriteRule ^restaurace/$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^jidelni-listek/$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^jidelni-listek$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^napojovy-listek/$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^napojovy-listek$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^vinny-listek/$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^vinny-listek$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^restaurace/denni-menu/$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^restaurace/denni-menu$ https://www.hotelchotoviny.cz/restaurace [R=301,L,NE]
+RewriteRule ^svatby/$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^svatby$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^eventy/$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^eventy$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^catering/$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^catering$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^grilovani-prasete/$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^grilovani-prasete$ https://www.hotelchotoviny.cz/akce [R=301,L,NE]
+RewriteRule ^vylety/$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^vylety$ https://www.hotelchotoviny.cz/okoli [R=301,L,NE]
+RewriteRule ^kontakty/$ https://www.hotelchotoviny.cz/kontakt [R=301,L,NE]
+RewriteRule ^kontakty$ https://www.hotelchotoviny.cz/kontakt [R=301,L,NE]
+RewriteRule ^poptavkovy-formular/$ https://www.hotelchotoviny.cz/kontakt [R=301,L,NE]
+RewriteRule ^poptavkovy-formular$ https://www.hotelchotoviny.cz/kontakt [R=301,L,NE]
+RewriteRule ^aktuality/$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^aktuality$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^category/blog/$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^category/blog$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^rezervace-previo/$ https://www.hotelchotoviny.cz/rezervace [R=301,L,NE]
+RewriteRule ^rezervace-previo$ https://www.hotelchotoviny.cz/rezervace [R=301,L,NE]
+RewriteRule ^zasady-cookies-eu/$ https://www.hotelchotoviny.cz/cookies [R=301,L,NE]
+RewriteRule ^zasady-cookies-eu$ https://www.hotelchotoviny.cz/cookies [R=301,L,NE]
+RewriteRule ^vseobecne-obchodni-podminky/$ https://www.hotelchotoviny.cz/obchodni-podminky [R=301,L,NE]
+RewriteRule ^vseobecne-obchodni-podminky$ https://www.hotelchotoviny.cz/obchodni-podminky [R=301,L,NE]
+RewriteRule ^ochrana-osobnich-udaju/$ https://www.hotelchotoviny.cz/ochrana-osobnich-udaju [R=301,L,NE]
+RewriteRule ^2025/([a-z0-9/_.-]*)$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^2026/([a-z0-9/_.-]*)$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^2020/([a-z0-9/_.-]*)$ https://www.hotelchotoviny.cz/ [R=301,L,NE]
+RewriteRule ^cs/([a-z0-9/_.-]*)$ https://www.hotelchotoviny.cz/$1 [R=301,L,NE]
+RewriteRule ^ua/([a-z0-9/_.-]*)$ https://www.hotelchotoviny.cz/uk/$1 [R=301,L,NE]
+# KONEC SPOLECNYCH REDIRECTU
+
+  # THE_REQUEST rozliší přímé .html od interního přepisu a ErrorDocument.
+  RewriteCond %{THE_REQUEST} "\s/+index\.html(?:[?\s])" [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteCond %{THE_REQUEST} "\s/+[^?\s]+\.html(?:[?\s])" [NC]
+  RewriteRule ^([a-z0-9/_-]+)\.html$ https://www.hotelchotoviny.cz/$1 [R=301,L,NE]
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([a-z0-9/_-]+)/$ https://www.hotelchotoviny.cz/$1 [R=301,L,NE]
+  # Pouze tři veřejné endpointy; žádný obecný přepis libovolného PHP.
+  RewriteCond %{DOCUMENT_ROOT}/api/$1.php -f
+  RewriteRule ^api/(poptavka|rezervace|souhlas)$ api/$1.php [END]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+)$ $1.html [END]
+</IfModule>
+<IfModule mod_headers.c>
+  Header onsuccess unset X-Powered-By
+  Header always unset X-Powered-By
+  Header onsuccess unset X-Content-Type-Options
+  Header always set X-Content-Type-Options "nosniff"
+  Header onsuccess unset Referrer-Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header onsuccess unset Permissions-Policy
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header onsuccess unset X-Frame-Options
+  Header always set X-Frame-Options "DENY"
+  Header onsuccess unset Strict-Transport-Security
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header onsuccess unset Cross-Origin-Opener-Policy
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header onsuccess unset Cross-Origin-Resource-Policy
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+  Header onsuccess unset Content-Security-Policy
+  Header always set Content-Security-Policy "script-src 'self' 'sha256-4/ZdtKiltn3gJ5H86Jq8ZN0uXwpbHQd8NmG3e4YOfRk=' 'sha256-6XolXX81sAy+Biq761bBmshApZq76kFsh3f+McnreR8=' 'sha256-A17IydMYucs9kEwRAngREZuTNadW/4hi7Hzzy2jvL54=' 'sha256-AKX2KLTg+8Cr7iPNZqv/nvDTpeBzPzRnUsuXWS2nRoc=' 'sha256-EvUG6QO009oIi6x0nt0+hIfmrhDsSpEHF0J2lPdcU04=' 'sha256-H2ESNGw8tEP+Am9R+ssaey9B/WnAqh9u8FClLoMDVk8=' 'sha256-HASAbcxaA8Q0jK29tjCOYDfLTBJSosBJhmv9SPBrCdQ=' 'sha256-JyH3LGMFMn68DZLbZlc1rnT2+2tf2/WXNg17C+7nn94=' 'sha256-Lw7shGkQbrd3MfwqXZdex9xHniMaDUbeG7V8fi7hQio=' 'sha256-NBP2RLnGyhkLUrdpIOeCiaKnuT3Jx5lyNaVCERkpnsw=' 'sha256-QzrIEa9mwUzQ0BMtA8lwJK8VgKHmxaLUs/prH/KfuhQ=' 'sha256-R6Y7nKfooSn1tUAoyP/FVefhp+qnh5j43tOZBcTNDQk=' 'sha256-RyJy4Tnm+2tVAZHsMVK97X2r/B3RLZTiAeBvAcqMvN4=' 'sha256-SNoHsRRdYu3DZZeDV3nQRQZpDs2Yvte4Gq600LbqinA=' 'sha256-T1PhY7EpadwoRyRDj/kLVYdwff9NtCJMvlRO4jyFd9Q=' 'sha256-VqxG0KmU4Qd3s5qWDCo3l6Di6LS1nr8h5UkajNSZKRk=' 'sha256-ePuDAXyif5bm4GbEkcQ68ZAtoSP6vZAvPEQgcdujxZE=' 'sha256-iRJ1kEG9oDhAyNXaLIrZbehEPAnNzQrrUytYLzg73yA=' 'sha256-ictXJNMzWVk8/0DxIzOsXz7CYeKfhjv35VAiNOBwkr4=' 'sha256-pB3B8G5gJgaiMnM2ettGRDLlY4zAY53VUdRluGpiTis=' 'sha256-t/pccKij0qlNjOQ9py0PKasa0wlHEGvMUcCaFjOXbls=' 'sha256-uHSCbJL/nfpMJ5ahxhZRmdlTJY3WvCHb6PHwHr94eaE=' 'sha256-vIQbh7sECwlIpKCxvWHyhXtiORYTe54zB2gUzQ9jIew=' 'sha256-ytnYtZ4l6+iPJDYi4HJrXWslDkv4eqTTb1ElHSkKi+0='; script-src-attr 'none', style-src 'self'; style-src-elem 'self' 'sha256-/ETvECSuU98OMZvA4GO/xGEtCfRDQBnEsfChSjQ4ZD4=' 'sha256-5hCTRx3wvxj5ZK64lR2x1tPVIVXdPTqC5MANueHvzRo=' 'sha256-Ep89IS8CDrP4XudBYQFgPL5dRIAKY4ypPor8rTL3sWg=' 'sha256-FLCSrk/9pjuRBdP4zu1ZZSj4ajDaGG2K6jnN/YMg/ok=' 'sha256-HZ4rB03Xrq48TXRrshZ0A/rzCbrI8O6Hcrjxi45i7Q8=' 'sha256-LOT74CjAPJ43llHSwmgQRDyi41IdIQ5dihb4MKfI4II=' 'sha256-MYIAdCNRn3vEm9BhuvB1TSh0HB9IhAorVyMcjF30V4I=' 'sha256-Oodi5GbJT39uZ/+crq1AAQjtwiOy8hiC7Aqm7u5iCK4=' 'sha256-TSJoAMI0rJGloJDMSDu7i692pm4VURfmtvn1KxOkUaU=' 'sha256-clQsuG04JEkNJYVqQWpXRV3+heX0KL/okt1AHdWVigM=' 'sha256-f57KTxwnyGIYlVYTdiSrnnq1dbCNE5YSzW3Lt6COv6Y=' 'sha256-ff2FCQKr+rqnJ7hSO7rHp866Xgt5fEXT4oG8toDxu2g=' 'sha256-fzsZohs+jhAo7aAFt2nnW09ZOxqTvQZGO1pXOG75380=' 'sha256-gw2XCYSKOxFlOZR6lFd//+HxhD07kVlojBgC6QowwRY=' 'sha256-jFaL8gl2ufhTHYzt45n/WrZWpWduEVh2dQ6IZ2czvEk=' 'sha256-mbM5hKHCB6xDsm42O8i0YV2Y51BfX1J1xMHg1hz92TI=' 'sha256-q1qxsReDpYjz/0vqEUu3N/swhG8o8cv6aUdVpP4Aw4s=' 'sha256-s1vpHx2BFRczH9TauSzj7q2y1dZxqmI/90wtxc5RlOM=' 'sha256-uBqlzGEBgfosmBEQ0fhOk+McYG3uUWQuw71rymJGOOQ=' 'sha256-uIpD8XYwHbp2XVRoXoCDCmCjid8VSV7q1c/Ixux0PNU='; style-src-attr 'unsafe-inline', frame-src https://www.openstreetmap.org; form-action 'self' https://booking.previo.app; connect-src 'self'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; media-src 'self'; worker-src 'none'; child-src 'none'; manifest-src 'self'"
+  # Apache na rozdíl od Pages výchozí revalidaci nepřidává; API má no-store.
+  Header onsuccess unset Cache-Control
+  Header always set Cache-Control "public, max-age=0, must-revalidate"
+  Header always set Cache-Control "public, max-age=31536000, immutable" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.js$#"
+  Header always set Cache-Control "public, max-age=31536000, immutable" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.css$#"
+  Header always set Cache-Control "public, max-age=86400, stale-while-revalidate=604800" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.avif$#"
+  Header always set Cache-Control "public, max-age=86400, stale-while-revalidate=604800" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.webp$#"
+  Header always set Cache-Control "public, max-age=86400, stale-while-revalidate=604800" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.jpeg$#"
+  Header always set Cache-Control "public, max-age=86400, stale-while-revalidate=604800" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.jpg$#"
+  Header always set Cache-Control "public, max-age=86400, stale-while-revalidate=604800" "expr=%{REQUEST_URI} =~ m#^/_obr/.*\.png$#"
+  Header always set Cache-Control "public, max-age=86400, stale-while-revalidate=604800" "expr=%{REQUEST_URI} =~ m#^/pisma/.*$#"
+  Header always set Cache-Control "public, max-age=300, must-revalidate" "expr=%{REQUEST_URI} =~ m#^/_astro/.*$#"
+  Header always set Cache-Control "no-store" "expr=%{REQUEST_URI} =~ m#^/api(?:/|$)# || %{THE_REQUEST} =~ m#^[A-Z]+ /+api(?:/|[? ])#"
+</IfModule>
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+</IfModule>
+<IfModule mod_filter.c>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css application/javascript application/json image/svg+xml application/xml text/xml
+</IfModule>
+<IfModule !mod_brotli.c>
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml application/xml text/xml
+  </IfModule>
+</IfModule>
+</IfModule>

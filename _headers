@@ -1,0 +1,42 @@
+# GENEROVÁNO scripts/server/hlavicky.mjs po astro build; neupravovat.
+# Platí pouze pro statické odpovědi, Pages Functions nastavují vlastní hlavičky.
+# HTML/ostatní soubory: výchozí revalidace Pages, žádný globální Cache-Control.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=31536000
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  ! X-Powered-By
+  Content-Security-Policy: script-src 'self' 'sha256-4/ZdtKiltn3gJ5H86Jq8ZN0uXwpbHQd8NmG3e4YOfRk=' 'sha256-6XolXX81sAy+Biq761bBmshApZq76kFsh3f+McnreR8=' 'sha256-A17IydMYucs9kEwRAngREZuTNadW/4hi7Hzzy2jvL54=' 'sha256-AKX2KLTg+8Cr7iPNZqv/nvDTpeBzPzRnUsuXWS2nRoc=' 'sha256-EvUG6QO009oIi6x0nt0+hIfmrhDsSpEHF0J2lPdcU04=' 'sha256-H2ESNGw8tEP+Am9R+ssaey9B/WnAqh9u8FClLoMDVk8=' 'sha256-HASAbcxaA8Q0jK29tjCOYDfLTBJSosBJhmv9SPBrCdQ=' 'sha256-JyH3LGMFMn68DZLbZlc1rnT2+2tf2/WXNg17C+7nn94=' 'sha256-Lw7shGkQbrd3MfwqXZdex9xHniMaDUbeG7V8fi7hQio=' 'sha256-NBP2RLnGyhkLUrdpIOeCiaKnuT3Jx5lyNaVCERkpnsw=' 'sha256-QzrIEa9mwUzQ0BMtA8lwJK8VgKHmxaLUs/prH/KfuhQ=' 'sha256-R6Y7nKfooSn1tUAoyP/FVefhp+qnh5j43tOZBcTNDQk=' 'sha256-RyJy4Tnm+2tVAZHsMVK97X2r/B3RLZTiAeBvAcqMvN4=' 'sha256-SNoHsRRdYu3DZZeDV3nQRQZpDs2Yvte4Gq600LbqinA=' 'sha256-T1PhY7EpadwoRyRDj/kLVYdwff9NtCJMvlRO4jyFd9Q=' 'sha256-VqxG0KmU4Qd3s5qWDCo3l6Di6LS1nr8h5UkajNSZKRk=' 'sha256-ePuDAXyif5bm4GbEkcQ68ZAtoSP6vZAvPEQgcdujxZE=' 'sha256-iRJ1kEG9oDhAyNXaLIrZbehEPAnNzQrrUytYLzg73yA=' 'sha256-ictXJNMzWVk8/0DxIzOsXz7CYeKfhjv35VAiNOBwkr4=' 'sha256-pB3B8G5gJgaiMnM2ettGRDLlY4zAY53VUdRluGpiTis=' 'sha256-t/pccKij0qlNjOQ9py0PKasa0wlHEGvMUcCaFjOXbls=' 'sha256-uHSCbJL/nfpMJ5ahxhZRmdlTJY3WvCHb6PHwHr94eaE=' 'sha256-vIQbh7sECwlIpKCxvWHyhXtiORYTe54zB2gUzQ9jIew=' 'sha256-ytnYtZ4l6+iPJDYi4HJrXWslDkv4eqTTb1ElHSkKi+0='; script-src-attr 'none'
+  Content-Security-Policy: style-src 'self'; style-src-elem 'self' 'sha256-/ETvECSuU98OMZvA4GO/xGEtCfRDQBnEsfChSjQ4ZD4=' 'sha256-5hCTRx3wvxj5ZK64lR2x1tPVIVXdPTqC5MANueHvzRo=' 'sha256-Ep89IS8CDrP4XudBYQFgPL5dRIAKY4ypPor8rTL3sWg=' 'sha256-FLCSrk/9pjuRBdP4zu1ZZSj4ajDaGG2K6jnN/YMg/ok=' 'sha256-HZ4rB03Xrq48TXRrshZ0A/rzCbrI8O6Hcrjxi45i7Q8=' 'sha256-LOT74CjAPJ43llHSwmgQRDyi41IdIQ5dihb4MKfI4II=' 'sha256-MYIAdCNRn3vEm9BhuvB1TSh0HB9IhAorVyMcjF30V4I=' 'sha256-Oodi5GbJT39uZ/+crq1AAQjtwiOy8hiC7Aqm7u5iCK4=' 'sha256-TSJoAMI0rJGloJDMSDu7i692pm4VURfmtvn1KxOkUaU=' 'sha256-clQsuG04JEkNJYVqQWpXRV3+heX0KL/okt1AHdWVigM=' 'sha256-f57KTxwnyGIYlVYTdiSrnnq1dbCNE5YSzW3Lt6COv6Y=' 'sha256-ff2FCQKr+rqnJ7hSO7rHp866Xgt5fEXT4oG8toDxu2g=' 'sha256-fzsZohs+jhAo7aAFt2nnW09ZOxqTvQZGO1pXOG75380=' 'sha256-gw2XCYSKOxFlOZR6lFd//+HxhD07kVlojBgC6QowwRY=' 'sha256-jFaL8gl2ufhTHYzt45n/WrZWpWduEVh2dQ6IZ2czvEk=' 'sha256-mbM5hKHCB6xDsm42O8i0YV2Y51BfX1J1xMHg1hz92TI=' 'sha256-q1qxsReDpYjz/0vqEUu3N/swhG8o8cv6aUdVpP4Aw4s=' 'sha256-s1vpHx2BFRczH9TauSzj7q2y1dZxqmI/90wtxc5RlOM=' 'sha256-uBqlzGEBgfosmBEQ0fhOk+McYG3uUWQuw71rymJGOOQ=' 'sha256-uIpD8XYwHbp2XVRoXoCDCmCjid8VSV7q1c/Ixux0PNU='; style-src-attr 'unsafe-inline'
+  Content-Security-Policy: frame-src https://www.openstreetmap.org; form-action 'self' https://booking.previo.app; connect-src 'self'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; media-src 'self'; worker-src 'none'; child-src 'none'; manifest-src 'self'
+
+/_obr/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/_obr/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/_obr/*.avif
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/_obr/*.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/_obr/*.jpeg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/_obr/*.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/_obr/*.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/pisma/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/_astro/*
+  Cache-Control: public, max-age=300, must-revalidate
