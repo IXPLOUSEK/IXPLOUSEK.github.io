@@ -1,4 +1,4 @@
 Contact: mailto:recepce@hotelchotoviny.cz
-Expires: 2027-09-30T07:28:23.098Z
+Expires: 2027-09-30T07:43:44.895Z
 Preferred-Languages: cs, en
 Canonical: https://www.hotelchotoviny.cz/.well-known/security.txt
